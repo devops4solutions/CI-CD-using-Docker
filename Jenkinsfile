@@ -1,7 +1,6 @@
 pipeline {
     agent any
-   
-    stages {
+ stages {
       stage('checkout') {
            steps {
              
@@ -9,9 +8,7 @@ pipeline {
              
           }
         }
-       
-        
-         stage('Run Docker Container on Jenkins') {
+  stage('Run Docker Container on Jenkins') {
            steps {
              
                 sh 'docker run hello-world'             
