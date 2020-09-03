@@ -25,8 +25,8 @@ pipeline {
            steps {
               
                 sh 'docker build -t samplewebapp:latest .' 
-                sh 'docker tag nginxtest nikhilnidhi/samplewebapp:latest'
-                sh 'docker tag nginxtest nikhilnidhi/samplewebapp:$BUILD_NUMBER'
+                sh 'docker tag samplewebapp nikhilnidhi/samplewebapp:latest'
+                sh 'docker tag samplewebapp nikhilnidhi/samplewebapp:$BUILD_NUMBER'
                
           }
         }
@@ -46,14 +46,14 @@ pipeline {
              
             steps 
 			{
-                sh "docker run -d -p 8001:80 nikhilnidhi/samplewebapp"
+                sh "docker run -d -p 8002:80 nikhilnidhi/samplewebapp"
  
             }
         }
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://jenkins@172.31.28.25 run -d -p 8001:80 nikhilnidhi/samplewebapp"
+                sh "docker -H ssh://jenkins@172.31.28.25 run -d -p 8002:80 nikhilnidhi/samplewebapp"
  
             }
         }
