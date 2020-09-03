@@ -20,7 +20,7 @@ pipeline {
           }
         }
         
-stages {
+
   stage('Docker Build and Tag') {
            steps {
               
@@ -44,7 +44,7 @@ stages {
      
       stage('Run Docker container on Jenkins Agent') {
              
-            steps {
+            steps 
                 sh "docker run -d -p 4030:80 nikhilnidhi/nginxtest"
  
             }
@@ -57,5 +57,5 @@ stages {
             }
         }
     }
-    }
+    
 }
