@@ -24,9 +24,9 @@ pipeline {
   stage('Docker Build and Tag') {
            steps {
               
-                sh 'docker build -t nginxtest:latest .' 
-                sh 'docker tag nginxtest nikhilnidhi/nginxtest:latest'
-                sh 'docker tag nginxtest nikhilnidhi/nginxtest:$BUILD_NUMBER'
+                sh 'docker build -t samplewebApp:latest .' 
+                sh 'docker tag nginxtest nikhilnidhi/samplewebApp:latest'
+                sh 'docker tag nginxtest nikhilnidhi/samplewebApp:$BUILD_NUMBER'
                
           }
         }
@@ -35,8 +35,8 @@ pipeline {
           
             steps {
         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-          sh  'docker push nikhilnidhi/nginxtest:latest'
-          sh  'docker push nikhilnidhi/nginxtest:$BUILD_NUMBER' 
+          sh  'docker push nikhilnidhi/samplewebApp:latest'
+          sh  'docker push nikhilnidhi/samplewebApp:$BUILD_NUMBER' 
         }
                   
           }
@@ -46,14 +46,14 @@ pipeline {
              
             steps 
 			{
-                sh "docker run -d -p 4030:80 nikhilnidhi/nginxtest"
+                sh "docker run -d -p 8001:80 nikhilnidhi/samplewebApp"
  
             }
         }
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://jenkins@172.31.28.25 run -d -p 4001:80 nikhilnidhi/nginxtest"
+                sh "docker -H ssh://jenkins@172.31.28.25 run -d -p 8001:80 nikhilnidhi/samplewebApp"
  
             }
         }
