@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+               string(name: REMOTEHOSTIP, defaultValue: '')
+  }
  stages {
       stage('checkout') {
            steps {
@@ -17,7 +20,7 @@ pipeline {
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://jenkins@172.31.28.25 run hello-world"
+                sh "docker -H ssh://jenkins@${REMOTEHOSTIP} run hello-world"
  
             }
         }
