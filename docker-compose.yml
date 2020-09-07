@@ -15,11 +15,11 @@ services:
     ports:
       - '8088:8080'
     volumes:
-      - './target/LoginWebApp-1.war:/usr/local/tomcat/webapps/'
+      - './target/LoginWebApp-1.war:/usr/local/tomcat/webapps/LoginWebApp-1.war'
     depends_on:
       - mysqldb
 volumes:
-  mysql_data:
+  mydb:
     driver: local
   java_data:
     driver: local
