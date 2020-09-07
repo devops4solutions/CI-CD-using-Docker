@@ -15,17 +15,11 @@ services:
     ports:
       - '8088:8080'
     volumes:
-      - './target/LoginWebApp-1.war:/usr/local/tomcat/webapps/LoginWebApp-1.war'
+      - './target/LoginWebApp-1.war:/usr/local/tomcat/webapps/'
     depends_on:
       - mysqldb
-    environment:
-      - MARIADB_HOST=mariadb
-      - MARIADB_PORT_NUMBER=3306
-      - WORDPRESS_DATABASE_USER=bn_wordpress
-      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
-      - ALLOW_EMPTY_PASSWORD=yes
 volumes:
-  mariadb_data:
+  mysql_data:
     driver: local
-  wordpress_data:
+  java_data:
     driver: local
