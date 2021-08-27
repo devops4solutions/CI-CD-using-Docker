@@ -26,7 +26,7 @@ pipeline {
               
                 sh 'docker build -t samplewebapp:latest .' 
                 sh 'docker tag samplewebapp gokul711/samplewebapp:latest'
-                //sh 'docker tag samplewebapp gokul711/samplewebapp:$BUILD_NUMBER'
+                sh 'docker tag samplewebapp gokul711/samplewebapp:$BUILD_NUMBER'
                
           }
         }
