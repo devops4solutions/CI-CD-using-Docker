@@ -53,7 +53,9 @@ pipeline {
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://jenkins@52.66.9.149 run -d -p 8003:8080 nikhilnidhi/samplewebapp"
+                sh "docker -H ssh://jenkins@52.66.9.149 run -d -p 8003:8080 gokul711/samplewebapp"
+		sh setfacl --modify user:$USER:rw /var/run/docker.sock
+		sh chmod 777 /var/run/docker.sock
  
             }
         }
