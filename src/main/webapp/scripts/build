@@ -1,0 +1,37 @@
+#!/bin/bash
+startBuild()
+{
+#Create the docker image and validate it
+ECR_REPO=740075994284.dkr.ecr.ap-south-1.amazonaws.com/ci-cd-using-docker
+DOCKER_BUILD_TAG="$GIT_BRANCH"-"${BUILD_NUMBER}"
+docker build -t "$ECR_REPO":"$DOCKER_BUILD_TAG" --pull=true .
+if docker build -t "$ECR_REPO":"$DOCKER_BUILD_TAG" --pull=true .
+then
+echo "Docker build got success"
+else
+echo "Docker build was failed"
+exit 1
+fi
+#Get the Image ID and tag it with repo name
+IMAGE_ID=$(docker images -q $ECR_REPO | awk "NR==1{print $1}")
+echo "$IMAGE_ID"
+docker tag "$IMAGE_ID" "$ECR_REPO":"latest"
+docker inspect "$IMAGE_ID"
+#Push the Image to the respective repo and validate it
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 740075994284.dkr.ecr.ap-south-1.amazonaws.com
+docker push "$ECR_REPO":"$DOCKER_BUILD_TAG" && docker push "$ECR_REPO":"latest"
+if docker push "$ECR_REPO":"$DOCKER_BUILD_TAG" && docker push "$ECR_REPO":"latest"
+then
+echo "Docker Push got success"
+docker logout
+else
+echo "Docker Push was failed"
+docker logout
+exit 1
+fi
+}
+
+if["$GITBRANCH" == "Text1"]
+{
+    startBuild
+}

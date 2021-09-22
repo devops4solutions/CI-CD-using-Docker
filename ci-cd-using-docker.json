@@ -1,0 +1,31 @@
+{
+    "family": "",
+    "taskRoleArn": "",
+    "containerDefinitions": [
+      {
+        "name": "",
+        "image": "",
+        "cpu": 0,
+        "memory": 0,
+        "memoryReservation": 400,
+        "volumesFrom": [],
+        "portMappings": [
+          {
+            "hostPort": 0,
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "GROUP_NAME",
+            "awslogs-region": "",
+            "awslogs-stream-prefix": ""
+          }
+        },
+        "environment": [],
+        "mountPoints": []
+      }
+    ]
+  }
