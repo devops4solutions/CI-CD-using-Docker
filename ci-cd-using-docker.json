@@ -16,14 +16,6 @@
             "protocol": "tcp"
           }
         ],
-        "logConfiguration": {
-          "logDriver": "awslogs",
-          "options": {
-            "awslogs-group": "GROUP_NAME",
-            "awslogs-region": "ap-south-1",
-            "awslogs-stream-prefix": "ci-cd-using-docker"
-          }
-        },
         "environment": [],
         "mountPoints": []
       }

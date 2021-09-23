@@ -3,8 +3,7 @@ startDeploy()
 {
 # Create a new task definition for this build
 sed -e "s;GIT_COMMIT;${IMAGE_VERSION};g" "${JSON_FILE}".json > "${JSON_FILE}"-new-"${BUILD_NUMBER}".json
-sed -e "s;GROUP_NAME;${GIT_BRANCH};g" "${JSON_FILE}"-new-"${BUILD_NUMBER}".json > "${JSON_FILE}"-"${BUILD_NUMBER}"-v1.json
-sed -e "s;task_role;${TASK_ROLE};g" "${JSON_FILE}"-"${BUILD_NUMBER}"-v1.json > "${JSON_FILE}"-"${BUILD_NUMBER}".json
+sed -e "s;task_role;${TASK_ROLE};g" "${JSON_FILE}"-new-"${BUILD_NUMBER}".json > "${JSON_FILE}"-"${BUILD_NUMBER}".json
 cat ${JSON_FILE}-${BUILD_NUMBER}.json
 aws ecs register-task-definition --family ${TASK_FAMILY} --cli-input-json file://${JSON_FILE}-${BUILD_NUMBER}.json --region ap-south-1
 # Update the service with the new task definition and desired count
@@ -32,7 +31,7 @@ rm -rf "${JSON_FILE}"-"${BUILD_NUMBER}".json
 rm -rf "${JSON_FILE}"-new-"${BUILD_NUMBER}".json
 }
 
-if [ "$GIT_BRANCH" == "text1" ]
+if [ "$GIT_BRANCH" == "Text1" ]
 then
 SERVICE_NAME="ci-cd-using-docker"
 IMAGE_VERSION="${GIT_BRANCH}-${BUILD_NUMBER}"
