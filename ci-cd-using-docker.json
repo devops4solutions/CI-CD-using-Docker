@@ -1,13 +1,13 @@
 {
-    "family": "",
-    "taskRoleArn": "",
+    "family": "ci-cd-using-docker",
+    "taskRoleArn": "arn:aws:iam::740075994284:role/task_role",
     "containerDefinitions": [
       {
-        "name": "",
-        "image": "",
-        "cpu": 0,
-        "memory": 0,
-        "memoryReservation": 400,
+        "name": "ci-cd-using-docker",
+        "image": "740075994284.dkr.ecr.ap-south-1.amazonaws.com/ci-cd-using-docker:GIT_COMMIT",
+        "cpu": 300,
+        "memory": 300,
+        "memoryReservation": 200,
         "volumesFrom": [],
         "portMappings": [
           {
@@ -20,8 +20,8 @@
           "logDriver": "awslogs",
           "options": {
             "awslogs-group": "GROUP_NAME",
-            "awslogs-region": "",
-            "awslogs-stream-prefix": ""
+            "awslogs-region": "ap-south-1",
+            "awslogs-stream-prefix": "ci-cd-using-docker"
           }
         },
         "environment": [],
