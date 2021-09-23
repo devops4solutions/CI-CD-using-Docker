@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  {
+  stages {
     stage('build') {
       steps {
         echo 'Building a docker image'
@@ -13,6 +13,6 @@ pipeline {
         sh './scripts/deploy'
       }
     }
-    
   }
+3:32
 }
