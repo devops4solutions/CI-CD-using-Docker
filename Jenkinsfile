@@ -1,6 +1,12 @@
 pipeline {
   agent any
   stages {
+    stage('Test') {
+    steps {
+        sh "chmod +x -R ${env.WORKSPACE}"
+        sh './jenkins/test.sh'
+    }
+}
     stage('build') {
       steps {
         echo 'Building a docker image'
@@ -13,11 +19,6 @@ pipeline {
         sh './scripts/deploy'
       }
     }
-    stage('Test') {
-    steps {
-        sh "chmod +x -R ${env.WORKSPACE}"
-        sh './jenkins/test.sh'
-    }
-}
+    
   }
 }
