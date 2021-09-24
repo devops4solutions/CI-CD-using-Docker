@@ -1,6 +1,7 @@
 {
     "family": "ci-cd-using-docker",
     "taskRoleArn": "arn:aws:iam::740075994284:role/task_role",
+    "Taskexecutionrole":"ecsTaskExecutionRole",
     "containerDefinitions": [
       {
         "name": "ci-cd-using-docker",
