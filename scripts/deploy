@@ -1,0 +1,43 @@
+#!/bin/bash
+startDeploy()
+{
+# Create a new task definition for this build
+sed -e "s;GIT_COMMIT;${IMAGE_VERSION};g" "${JSON_FILE}".json > "${JSON_FILE}"-new-"${BUILD_NUMBER}".json
+sed -e "s;task_role;${TASK_ROLE};g" "${JSON_FILE}"-new-"${BUILD_NUMBER}".json > "${JSON_FILE}"-"${BUILD_NUMBER}".json
+cat ${JSON_FILE}-${BUILD_NUMBER}.json
+aws ecs register-task-definition --family ${TASK_FAMILY} --cli-input-json file://${JSON_FILE}-${BUILD_NUMBER}.json --region ap-south-1
+# Update the service with the new task definition and desired count
+DESIRED_COUNT=$(aws ecs describe-services --cluster "${CLUSTER}" \
+                                          --services "${SERVICE_NAME}" \
+                                          --region ap-south-1 | grep -E "desiredCount" | tr "/" " " | awk '{print $2}' | sed 's/,$//')
+echo "$DESIRED_COUNT"
+aws ecs update-service --cluster "${CLUSTER}"  \
+                       --service "${SERVICE_NAME}" \
+                       --desired-count "${RUNNING_COUNT}" \
+                       --task-definition "${TASK_FAMILY}" --force-new-deployment \
+                       --region ap-south-1
+TASK_REVISION=$(aws ecs describe-task-definition --task-definition "${TASK_FAMILY}" \
+                                                 --region ap-south-1 | grep -E "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//')
+echo "Task_revision_no=${TASK_REVISION}"
+# Jenkins Job wait until service is avaliable in cluster
+aws ecs wait services-stable --cluster "${CLUSTER}" --services "${SERVICE_NAME}" --region ap-south-1
+if [ $? -eq 0 ]; then
+echo "Build got deployed successfully"
+else
+echo "Build failed"
+exit 1
+fi
+rm -rf "${JSON_FILE}"-"${BUILD_NUMBER}".json
+rm -rf "${JSON_FILE}"-new-"${BUILD_NUMBER}".json
+}
+
+if [ "$GIT_BRANCH" == "Text1" ]
+then
+SERVICE_NAME="ci-cd-using-docker"
+IMAGE_VERSION="${GIT_BRANCH}-${BUILD_NUMBER}"
+TASK_FAMILY="ci-cd-using-docker"
+CLUSTER="Ecs-fargate"
+TASK_ROLE="fargate-ecs"
+JSON_FILE="ci-cd-using-docker"
+RUNNING_COUNT=1
+startDeploy

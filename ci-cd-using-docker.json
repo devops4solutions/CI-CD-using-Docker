@@ -1,0 +1,26 @@
+{
+    "family": "ci-cd-using-docker",
+    "taskRoleArn": "arn:aws:iam::740075994284:role/task_role",
+    "Taskexecutionrole": "ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "ci-cd-using-docker",
+        "image": "740075994284.dkr.ecr.ap-south-1.amazonaws.com/ci-cd-using-docker:GIT_COMMIT",
+        "cpu": 300,
+        "memory": 300,
+        "memoryReservation": 200,
+        "volumesFrom": [],
+        "portMappings": [
+          {
+            "hostPort": 0,
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [],
+        "mountPoints": []
+      }
+    ]
+  }
+
+  

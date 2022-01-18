@@ -1,9 +1,19 @@
-FROM tomcat:latest
+FROM node:10
 
-LABEL maintainer="Nidhi Gupta"
+# Create app directory
+WORKDIR /usr/src/app
 
-ADD ./target/LoginWebApp-1.war /usr/local/tomcat/webapps/
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-EXPOSE 8080
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-CMD ["catalina.sh", "run"]
+# Bundle app source
+COPY . .
+
+EXPOSE 80
+CMD [ "node", "index.js" ]
