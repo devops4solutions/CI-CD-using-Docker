@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '90', numToKeepStr: '3')
+}
+options {
+  timestamps()
+}
+    tools{
+        maven 'maven'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                // Get code from a GitHub repository
+                git branch: 'master', url: 'https://github.com/bharah08/CI-CD-using-Docker.git'
+            }
+        }
+          stage("build & SonarQube analysis") {
+            steps {
+              withSonarQubeEnv('sonar') {
+                sh 'mvn clean package sonar:sonar'
+              }
+            }
+          }
+          stage("Quality Gate") {
+            steps {
+              timeout(time: 5, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+           
+        }
+        post {
+  always {
+    // One or more steps need to be included within each condition's block.
+    slackSend channel: 'dev', color: 'green', message: 'check build status', teamDomain: 'devops-ok77596', tokenCredentialId: 'slack'
+  }
+}
+    }
