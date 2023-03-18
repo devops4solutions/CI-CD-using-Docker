@@ -19,6 +19,12 @@ pipeline {
                 sh 'mvn clean package'             
           }
         }
+	  stage('Execute Maven') {
+           steps {
+             
+                sh 'mvn clean install'             
+          }
+        }
  }
 	post {
   always {
