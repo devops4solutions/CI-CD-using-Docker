@@ -1,9 +1,6 @@
-FROM tomcat:latest
+FROM tomcat:8.5.89-jdk17-temurin-focal
 
-LABEL maintainer="Nidhi Gupta"
+LABEL maintainer="devops"
 
-ADD ./target/LoginWebApp-1.war /usr/local/tomcat/webapps/
+COPY /target/LoginWebApp-1.war /usr/local/tomcat/webapps/
 
-EXPOSE 8080
-
-CMD ["catalina.sh", "run"]
